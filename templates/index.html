@@ -1,0 +1,82 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Digit reader</title>
+
+  <!-- Latest Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="static/css/styles.css" />
+
+  <!-- fabric.js library -->
+  <script type='text/javascript' src='http://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.4.0/fabric.min.js'></script>
+
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+
+  <!-- Going to use JQuery so its good to have library locally -->
+  <!-- <script type='text/javascript' src="static/js/jquery-3.2.1.min.js"></script> -->
+        <script type='text/javascript'>
+
+            
+            var canvas;
+            var image;
+            var bThick = 10;
+            var cColour = '#FFFFFF'; // #black
+
+            //Initialize  fabric 
+
+            function initCanvas(){
+                canvas = new fabric.Canvas('canvasBox');
+                canvas.isDrawingMode = true;
+                canvas.freeDrawingBrush.width = bThick;
+                canvas.freeDrawingBrush.color = cColour;
+                canvas.backgroundColor = '#000000';            
+            }
+        
+
+            window.onload = function(){
+                initCanvas();
+                // submit button
+                var btnsub = document.getElementById('btnSubmit');
+                btnsub.addEventListener('click', handleImage());
+            };
+            
+        
+            function handleImage(){                        
+                var imgURL = canvas.toDataURL();   
+                
+                    // $.get( "/getmethod/"+ (imgURL) )
+                    $.post( "/postmethod", {javascript_data: imgURL }); 
+                     
+            };
+
+            function redirect(){ 
+                var base_url = window.location.origin;                       
+                var url= base_url + '/result'; 
+                window.location = url; 
+                     
+            };
+
+
+        </script>
+
+
+</head>
+<!--end of head -->
+
+
+    <body> 
+        <script> initCanvas;</script>
+        <h2>Draw a number </h2>           
+        <canvas id="canvasBox"position="relative" width="280" height="280"></canvas>
+        <br>
+        <button style="margin:5px;" class="btn btn-primary col-xs-1" onclick="handleImage();">Submit</button>
+        
+        <button style="margin:5px;" class="btn btn-primary col-xs-1" onclick="redirect();">Analyse</button>
+    </body>
+
+</html>
