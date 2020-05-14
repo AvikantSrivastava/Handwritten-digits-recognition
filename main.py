@@ -6,7 +6,7 @@ from keras.preprocessing import image
 import numpy as np
 from PIL import Image
 import time
-from tensorflow.keras.backend import set_session
+# from tensorflow.keras.backend import set_session
 
 
 app = Flask(__name__ , static_url_path='')
@@ -14,21 +14,21 @@ app.config.from_object(__name__)
 # app.run(host= '0.0.0.0')
 app.config["IMAGE_UPLOADS"] = "images"
 
-sess_config = tf.ConfigProto(
-    log_device_placement=False,
-    allow_soft_placement = True,
-    gpu_options = tf.GPUOptions(
-        per_process_gpu_memory_fraction=1
-    )
-)
-graph = tf.get_default_graph()
-sess = tf.Session(graph=graph, config=sess_config)
+# sess_config = tf.ConfigProto(
+#     log_device_placement=False,
+#     allow_soft_placement = True,
+#     gpu_options = tf.GPUOptions(
+#         per_process_gpu_memory_fraction=1
+#     )
+# )
+# graph = tf.get_default_graph()
+# sess = tf.Session(graph=graph, config=sess_config)
 
 # tf_config = some_custom_config
 # sess = tf.Session(config=tf_config)
 
 
-set_session(sess)
+# set_session(sess)
 model = tf.keras.models.load_model('mnist2.h5')
 model.summary()
 
@@ -48,11 +48,11 @@ def new_guess():
     im2arr = np.array(img)
     im2arr = im2arr.reshape(1,28,28,1)
     global model
-    global sess
-    global graph
-    with graph.as_default():
-        set_session(sess)    
-        pred = model.predict_classes(im2arr)
+    # global sess
+    # global graph
+    # with graph.as_default():
+        # set_session(sess)    
+    pred = model.predict_classes(im2arr)
     print('hogyaa')
     print(pred[0])
     return pred[0]
